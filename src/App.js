@@ -1,8 +1,23 @@
 import './App.css';
 import useContentful from './useContentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
+import {
+  BrowserRouter,
+  Router,
+  Switch,
+  Route,
+  Link,
+  Routes
+} from "react-router-dom";
 import styled from 'styled-components'
+// import Home from './components/Home'
+// import RetroMan from './assets/download.png'
+// import Header from './components/Header';
+// import ArticleCollection from './components/ArticleCollection'
+import ArticlePage from "./components/ArticlePage"
 import Recipe from "./components/Recipe"
+import RecipeModal from './components/RecipeModal';
+import { useState } from 'react';
 
 const query = `
 query {
@@ -15,6 +30,7 @@ query {
 `
 function App() {
   let { data, errors } = useContentful(query);
+  const [visible, setVisible] = useState(false);
 
   if (errors) {
     return (
@@ -25,30 +41,37 @@ function App() {
 
   const { articleCollection } = data;
 
-  console.log(articleCollection);
+  const handleModal = () => {
+    setVisible(!visible);
+  }
+
   return (
-    <div className="App">
-      {articleCollection.items.map((x) => (
-        <>
-          <ImgWrapper background={x.articleImage.url}>
-          </ImgWrapper>
-          <HeaderTxt>{x.title}</HeaderTxt>
-          <Ingress>{x.ingress}</Ingress>
-          <div style={{ display: "flex", flexFlow: "row" }}>
-            <Recipe />
-            <Recipe />
-            <Recipe />
-            <Recipe />
-          </div>
-          <RichTxt>
-            {documentToReactComponents(x.mainContent.json)}
-          </RichTxt>
-        </>
-      ))}
-    </div >
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<div>hei</div>} />
+        <Route path="/article/:id" element={<ArticlePage />} />
+        <Route path="/:id" element={<Recipe />} />
+      </Routes >
+    </BrowserRouter>
   );
 }
 
+// const Wrapper = styled.div`
+//     /* background: #fff; */
+//     display: flex;
+//     box-shadow: 0px 3px 36px 0px rgba(92,92,92,0.8);
+//     flex-flow: column;
+//     align-self: center;
+//     align-items: center;
+//     align-content: center;
+//     justify-content: center;
+//     width: 50rem;
+//     padding: 16px;
+// `;
+
+// const Img = styled.img`
+//   background-color: #fff;
+// `;
 
 const ImgWrapper = styled.div`
     width: 100%;
@@ -77,6 +100,13 @@ const RichTxt = styled.div`
 const Ingress = styled.div`
     font-weight: bolder;
     font-size: 1.125rem;
+`;
+
+const ContentWrapper = styled.div`
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
 `;
 
 export default App;

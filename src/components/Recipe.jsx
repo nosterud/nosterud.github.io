@@ -1,12 +1,14 @@
 import React from "react"
 import useContentful from "../useContentful"
 import styled from "styled-components"
+import StarRating from "./StarRating"
+import { Link, useParams } from 'react-router-dom'
 
 const query = `
     query {
         recipeCollection {
             items {
-                title, teaser, ingress, ingrediens, howTo {
+                title, teaser, ingress, ingrediens, timeStamp, rating, howTo {
                     json
                 }, 
                 hero {
@@ -17,8 +19,9 @@ const query = `
 }
 `
 
-const Recipe = () => {
+const Recipe = ({setModal}) => {
     let { data, errors } = useContentful(query);
+    const { id } = useParams()
 
     if (errors) {
       return (
@@ -32,11 +35,15 @@ const Recipe = () => {
     return (
         <>
             {recipeCollection.items.map((item) => (
-                <Wrapper>
+                <Wrapper onClick={setModal}>
                     <ImgWrapper background={item.hero.url}>
                         <Teaser>{item.title}</Teaser>
                     </ImgWrapper>
+                    <StarRating stars={item.rating}/>
                     <AdTxt>{item.teaser}</AdTxt>
+                    {item.timeStamp && (
+                        <span>{item.timeStamp}</span>
+                    )}
                 </Wrapper>
             ))}
         </>
@@ -44,7 +51,7 @@ const Recipe = () => {
 }
 
 
-const ImgWrapper = styled.div`
+export const ImgWrapper = styled.div`
     width: 100%;
     min-height: 10rem;
     background-image: ${(props) => props.background && `url(${props.background})`};
@@ -55,7 +62,7 @@ const ImgWrapper = styled.div`
     justify-content: center;
 `;
 
-const Teaser = styled.span`
+export const Teaser = styled.span`
     color: #fff;
     height: fit-content;
     font-weight: bold;
@@ -67,7 +74,7 @@ const Teaser = styled.span`
     bottom: -12px;
 `;
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
     box-shadow: 0 0 0.375rem 0 rgb(0 0 0 / 20%);
     width: 20%;
     margin: 28px 28px 0 28px;
@@ -78,9 +85,13 @@ const Wrapper = styled.div`
     }
 `;
 
-const AdTxt = styled.div`
-    padding: 2.5rem 2.5rem;
+export const AdTxt = styled.div`
+    padding: 1rem 2.5rem;
 `;
+
+// const TimeStamp = styled.div`
+//     border: 1px solid red;
+// `;
 
 
 export default Recipe;
