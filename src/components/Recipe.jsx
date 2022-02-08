@@ -78,6 +78,7 @@ export const Wrapper = styled.div`
     box-shadow: 0 0 0.375rem 0 rgb(0 0 0 / 20%);
     width: 20%;
     margin: 28px 28px 0 28px;
+    background: #fff;
 
     &:hover {
         cursor: pointer;

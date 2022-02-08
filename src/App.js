@@ -46,13 +46,15 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<div>hei</div>} />
-        <Route path="/article/:id" element={<ArticlePage />} />
-        <Route path="/:id" element={<Recipe />} />
-      </Routes >
-    </BrowserRouter>
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<div>hei</div>} />
+          <Route path="/article/:id" element={<ArticlePage />} />
+          <Route path="/:id" element={<Recipe />} />
+        </Routes >
+      </BrowserRouter>
+    </div>
   );
 }
 
