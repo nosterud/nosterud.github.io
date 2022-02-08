@@ -94,9 +94,9 @@ query {
             <ContentWrapper>
               <HeaderTxt>{article.title}</HeaderTxt>
               <Ingress>{article.ingress}</Ingress>
-              <div style={{ display: "flex", flexFlow: "row" }}>
+              {/* <div style={{ display: "flex", flexFlow: "row" }}>
                 <Recipe />
-              </div>
+              </div> */}
               <RichTxt>
                 {documentToReactComponents(article.mainContent.json, renderOptions(article.mainContent.links))}
                 {/* {documentToReactComponents(
@@ -150,6 +150,7 @@ const ContentWrapper = styled.div`
 
 const Img = styled.img`
   width: 450px;
+  margin: 16px 0 16px 0;
 `;
 
 export default ArticlePage;
